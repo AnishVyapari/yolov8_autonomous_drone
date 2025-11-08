@@ -1,0 +1,34 @@
+# YOLOv8 Autonomous Drone - Dependencies
+# Core Computer Vision & ML
+ultralytics>=8.0.0
+opencv-python>=4.8.0
+numpy>=1.24.0
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Drone Communication
+dronekit>=2.9.2
+pymavlink>=2.4.37
+
+# Object Tracking (Optional)
+deep-sort-realtime>=1.3.2
+
+# Configuration & Data
+PyYAML>=6.0
+
+# Utilities
+opencv-contrib-python>=4.8.0
+pillow>=10.0.0
+scipy>=1.11.0
+
+# Development & Testing (Optional)
+pytest>=7.4.0
+black>=23.0.0
+flake8>=6.0.0
+
+# Camera Support
+picamera2>=0.3.12; platform_machine == 'aarch64'  # For Raspberry Pi
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
