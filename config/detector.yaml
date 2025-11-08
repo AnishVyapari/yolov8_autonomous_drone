@@ -1,0 +1,52 @@
+# YOLOv8 Autonomous Drone Configuration
+
+# Model Configuration
+model:
+  weights: "yolov8n.pt"  # Options: yolov8n.pt, yolov8s.pt, yolov8m.pt, yolov8l.pt, yolov8x.pt
+  confidence_threshold: 0.25
+  iou_threshold: 0.45
+  classes: null  # null for all classes, or list like [0, 1, 2] for specific classes
+  device: "cuda"  # cuda, cpu, or mps (for Apple Silicon)
+
+# Camera Configuration
+camera:
+  device_id: 0  # 0 for default camera, or path like '/dev/video0'
+  width: 640
+  height: 480
+  fps: 30
+  rotate: 0  # Rotation angle: 0, 90, 180, 270
+
+# Drone Connection
+drone:
+  enabled: false  # Set to true to enable drone connection
+  connection_string: "/dev/ttyACM0"  # Serial port or UDP address like 'udp:127.0.0.1:14550'
+  baud_rate: 57600
+  wait_ready: true
+  timeout: 30
+
+# Detection Settings
+detection:
+  enable_tracking: true  # Enable object tracking across frames
+  track_history: 30  # Number of frames to keep in tracking history
+  min_detection_size: 20  # Minimum bbox size in pixels
+  
+# Autonomous Behavior
+autonomous:
+  enabled: false
+  target_classes: [0]  # COCO class IDs to track (0=person)
+  follow_distance: 5.0  # meters
+  max_speed: 2.0  # m/s
+  safety_radius: 10.0  # meters
+
+# Logging
+logging:
+  save_video: false
+  save_detections: true
+  output_dir: "output"
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+
+# Performance
+performance:
+  max_batch_size: 1
+  half_precision: false  # Use FP16 for faster inference (requires CUDA)
+  verbose: false
