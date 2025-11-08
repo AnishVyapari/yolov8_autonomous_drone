@@ -1,125 +1,266 @@
-<!-- Drone & Air Glassmorphism Banner with Detection Theme -->
+# 🚁 YOLOv8 Autonomous Drone
+
 <div align="center">
-  <svg width="800" height="200" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="skyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style="stop-color:rgba(135,206,250,0.35);stop-opacity:1" />
-        <stop offset="100%" style="stop-color:rgba(0,119,182,0.35);stop-opacity:1" />
-      </linearGradient>
-      <filter id="softBlur"><feGaussianBlur stdDeviation="2"/></filter>
-    </defs>
 
-    <!-- Glass Sky Panel -->
-    <rect width="800" height="200" rx="18" fill="url(#skyGrad)" opacity="0.65" filter="url(#softBlur)"/>
-    <rect width="800" height="200" rx="18" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/>
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-00FFFF.svg)](https://github.com/ultralytics/ultralytics)
+[![DroneKit](https://img.shields.io/badge/DroneKit-2.9.2-green.svg)](https://github.com/dronekit/dronekit-python)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-    <!-- Drone Icon -->
-    <g transform="translate(140,85)">
-      <circle cx="0" cy="0" r="18" fill="rgba(255,255,255,0.25)" stroke="#fff"/>
-      <g>
-        <circle cx="-40" cy="-20" r="10" fill="rgba(255,255,255,0.25)" stroke="#fff">
-          <animateTransform attributeName="transform" type="rotate" from="0 -40 -20" to="360 -40 -20" dur="2s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx="40" cy="-20" r="10" fill="rgba(255,255,255,0.25)" stroke="#fff">
-          <animateTransform attributeName="transform" type="rotate" from="0 40 -20" to="-360 40 -20" dur="2s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx="-40" cy="20" r="10" fill="rgba(255,255,255,0.25)" stroke="#fff">
-          <animateTransform attributeName="transform" type="rotate" from="0 -40 20" to="-360 -40 20" dur="2s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx="40" cy="20" r="10" fill="rgba(255,255,255,0.25)" stroke="#fff">
-          <animateTransform attributeName="transform" type="rotate" from="0 40 20" to="360 40 20" dur="2s" repeatCount="indefinite"/>
-        </circle>
-      </g>
-    </g>
+Real-time object detection and autonomous navigation system for drones using YOLOv8 and MAVLink
 
-    <!-- Detection Boxes -->
-    <g fill="none" stroke="#00e5ff" stroke-width="2" opacity="0.9">
-      <rect x="560" y="50" width="80" height="50" rx="6">
-        <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/>
-      </rect>
-      <rect x="620" y="110" width="60" height="40" rx="6">
-        <animate attributeName="opacity" values="0.3;1;0.3" dur="2.2s" begin="0.4s" repeatCount="indefinite"/>
-      </rect>
-    </g>
-
-    <!-- Title and Tagline -->
-    <text x="400" y="85" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#ffffff" text-anchor="middle">
-      YOLOv8 Autonomous Drone
-    </text>
-    <text x="400" y="112" font-family="Arial, sans-serif" font-size="16" fill="rgba(255,255,255,0.95)" text-anchor="middle">
-      🚁 See. Detect. Decide. — Airborne Perception in Real Time
-    </text>
-    <text x="400" y="136" font-family="Arial, sans-serif" font-size="12" fill="rgba(255,255,255,0.8)" text-anchor="middle">
-      YOLOv8 • Multi-Target Tracking • Edge Acceleration
-    </text>
-  </svg>
 </div>
 
+## 📋 Overview
+
+This project implements an advanced autonomous drone system that combines YOLOv8 object detection with MAVLink communication for real-time aerial surveillance and intelligent navigation. The system enables drones to detect, track, and respond to objects in their environment autonomously.
+
+### ✨ Key Features
+
+- **🎯 Real-time Object Detection**: Powered by YOLOv8 for high-speed, accurate detection
+- **🛸 Autonomous Flight**: DroneKit integration for intelligent drone control
+- **📡 MAVLink Communication**: Seamless communication with flight controllers (Pixhawk/APM)
+- **📊 Object Tracking**: Multi-object tracking with DeepSORT/ByteTrack
+- **🎥 Camera Support**: Works with USB, CSI cameras, and Raspberry Pi Camera Module
+- **⚙️ Configurable**: YAML-based configuration for easy customization
+- **📈 Telemetry Overlay**: Real-time display of drone status and GPS data
+- **💾 Data Logging**: Save detections, videos, and mission data
+
+## 🏗️ Architecture
+
+```
+┌─────────────────┐
+│  Drone Camera   │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────────────────┐
+│    YOLOv8 Inference Engine  │
+│  - Object Detection         │
+│  - Object Tracking          │
+│  - Real-time Processing     │
+└────────┬────────────────────┘
+         │
+         ▼
+┌─────────────────────────────┐
+│   Autonomous Controller     │
+│  - Decision Making          │
+│  - Path Planning            │
+│  - Safety Checks            │
+└────────┬────────────────────┘
+         │
+         ▼
+┌─────────────────────────────┐
+│      MAVLink Bridge         │
+│  - Flight Controller Comm   │
+│  - Telemetry Data           │
+└────────┬────────────────────┘
+         │
+         ▼
+┌─────────────────┐
+│  Pixhawk/APM    │
+│  Flight Control │
+└─────────────────┘
+```
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Python 3.8 or higher
+- CUDA-capable GPU (recommended for real-time performance)
+- Companion computer (Raspberry Pi 4, Jetson Nano, or similar)
+- Flight controller (Pixhawk, APM)
+- Camera module
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/AnishVyapari/yolov8_autonomous_drone.git
+   cd yolov8_autonomous_drone
+   ```
+
+2. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Download YOLOv8 weights**
+   ```bash
+   # Nano model (fastest)
+   wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n.pt
+   
+   # Or use other variants: yolov8s.pt, yolov8m.pt, yolov8l.pt, yolov8x.pt
+   ```
+
+4. **Configure the system**
+   ```bash
+   # Edit config/detector.yaml to match your setup
+   nano config/detector.yaml
+   ```
+
+### Basic Usage
+
+#### 1. Object Detection Only (No Drone)
+
+```bash
+python scripts/infer.py --config config/detector.yaml --no-display
+```
+
+#### 2. With Drone Connection
+
+```bash
+# Connect via USB/Serial
+python scripts/infer.py --config config/detector.yaml --connection /dev/ttyACM0
+
+# Connect via UDP (for simulation)
+python scripts/infer.py --config config/detector.yaml --connection udp:127.0.0.1:14550
+```
+
+#### 3. Object Tracking Mode
+
+```bash
+python scripts/scripts/track.py --config config/detector.yaml --camera 0
+```
+
+#### 4. Autonomous Mission
+
+```bash
+# Create waypoints.csv with your mission waypoints
+python scripts/mission.py --waypoints data/waypoints.csv --connection udp:127.0.0.1:14550
+```
+
+## 📁 Project Structure
+
+```
+yolov8_autonomous_drone/
+├── config/
+│   └── detector.yaml          # Main configuration file
+├── scripts/
+│   ├── infer.py               # YOLOv8 inference with DroneKit
+│   ├── mission.py             # Autonomous mission control
+│   ├── mavlink_bridge.py      # MAVLink communication bridge
+│   ├── scripts/
+│   │   └── track.py           # Object tracking implementation
+│   └── utils/
+│       ├── camera.py          # Camera utilities
+│       ├── gps.py             # GPS utilities
+│       └── io.py              # I/O utilities
+├── data/                      # Data directory
+├── output/                    # Output directory for logs/videos
+├── requirements.txt           # Python dependencies
+├── LICENSE                    # MIT License
+└── README.md                  # This file
+```
+
+## ⚙️ Configuration
+
+Edit `config/detector.yaml` to customize:
+
+- **Model Settings**: Model weights, confidence threshold, device
+- **Camera Settings**: Resolution, FPS, device ID
+- **Drone Settings**: Connection string, baud rate
+- **Detection Settings**: Tracking, class filters
+- **Autonomous Behavior**: Target classes, safety parameters
+- **Logging**: Video saving, output directories
+
+## 🎮 Hardware Setup
+
+### Recommended Hardware
+
+1. **Companion Computer**:
+   - Raspberry Pi 4 (4GB+ RAM)
+   - NVIDIA Jetson Nano/Xavier
+   - Intel NUC
+
+2. **Flight Controller**:
+   - Pixhawk 4/5/6
+   - APM 2.8
+
+3. **Camera**:
+   - Raspberry Pi Camera Module V2
+   - Logitech C920/C922
+   - Any USB webcam
+
+### Wiring
+
+```
+Companion Computer  ←→  Flight Controller
+   (USB/UART)              (TELEM2)
+        ↓
+    Camera Module
+```
+
+## 🔧 Advanced Usage
+
+### Custom Object Detection
+
+Train YOLOv8 on your custom dataset:
+
+```python
+from ultralytics import YOLO
+
+# Load a model
+model = YOLO('yolov8n.yaml')
+
+# Train the model
+results = model.train(data='your_dataset.yaml', epochs=100, imgsz=640)
+```
+
+### MAVLink Bridge
+
+Forward MAVLink messages between flight controller and ground station:
+
+```bash
+python scripts/mavlink_bridge.py --fc /dev/ttyACM0 --udp-out 127.0.0.1:14600
+```
+
+## 📊 Performance
+
+| Model | mAP | FPS (Jetson Nano) | FPS (RPi 4) | Size |
+|-------|-----|-------------------|-------------|------|
+| YOLOv8n | 37.3 | ~25 | ~8 | 6.3 MB |
+| YOLOv8s | 44.9 | ~18 | ~5 | 22 MB |
+| YOLOv8m | 50.2 | ~12 | ~3 | 50 MB |
+
+## 🛡️ Safety Features
+
+- **Geofence**: Configurable safety radius
+- **Battery Monitoring**: Auto RTL on low battery
+- **GPS Validation**: Ensures valid GPS before autonomous flight
+- **Failsafe Modes**: Automatic fallback behaviors
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics) - Object detection framework
+- [DroneKit-Python](https://github.com/dronekit/dronekit-python) - Drone control library
+- [MAVLink](https://mavlink.io/) - Micro Air Vehicle communication protocol
+
+## 📧 Contact
+
+Anish Vyapari - [@AnishVyapari](https://github.com/AnishVyapari)
+
+Project Link: [https://github.com/AnishVyapari/yolov8_autonomous_drone](https://github.com/AnishVyapari/yolov8_autonomous_drone)
+
 ---
 
-## ☁️ Airy Glass Bouncy Loader
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <style>
-    .sky-loader-wrap { height: 220px; display:flex; align-items:center; justify-content:center; background: linear-gradient(180deg,#7fc7ff,#3a86ff); }
-    .sky-glass { padding:22px 28px; border-radius:16px; border:1px solid rgba(255,255,255,0.35); background: rgba(255,255,255,0.22); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
-    .bubble { width:14px; height:14px; margin:0 6px; border-radius:50%; background: rgba(255,255,255,0.7); animation: updown 1.2s infinite ease-in-out; display:inline-block; }
-    .bubble:nth-child(1){ animation-delay:-.24s; background: rgba(0,229,255,.8) }
-    .bubble:nth-child(2){ animation-delay:-.12s; background: rgba(144,224,239,.85) }
-    .bubble:nth-child(3){ background: rgba(255,255,255,.85) }
-    @keyframes updown { 0%,80%,100%{ transform: translateY(0) scale(1)} 40%{ transform: translateY(-18px) scale(1.15)} }
-    .hint { margin-top:10px; color:#fff; font-family: Arial, sans-serif; letter-spacing:2px; font-size:13px; text-align:center; }
-  </style>
-</head>
-<body>
-  <div class="sky-loader-wrap">
-    <div class="sky-glass">
-      <span class="bubble"></span>
-      <span class="bubble"></span>
-      <span class="bubble"></span>
-      <div class="hint">DETECTING...</div>
-    </div>
-  </div>
-</body>
-</html>
-```
+<div align="center">
 
-# 🚁 YOLOv8 Autonomous Drone
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-orange.svg)
-![Python](https://img.shields.io/badge/Python-3.9%2B-brightgreen.svg)
-![Build](https://img.shields.io/badge/build-passing-brightgreen.svg)
-![CI](https://img.shields.io/badge/CI-GitHub%20Actions-blue.svg)
-> Autonomous drone with YOLOv8 object detection for real-time aerial surveillance and navigation
----
-## 💡 Project Idea
-An edge-AI drone platform leveraging YOLOv8 for onboard object detection, target tracking, and autonomous navigation. The system fuses vision with IMU/GPS data to perform waypoint following, geofencing, and safe RTL (return-to-launch).
-**Highlights:**
-- Real-time YOLOv8 inference (N/S/M sizes) with TensorRT acceleration (optional)
-- Multi-target tracking (DeepSORT/ByteTrack)
-- MAVLink/Dronekit/ROS2 control pipeline
-- Geo-fence enforcement and collision avoidance
-- Onboard recording and mission telemetry
----
-## 🔧 Hardware Components
-- Flight Controller: Pixhawk 4 / Cube Orange (ArduPilot or PX4)
-- Companion Computer: Jetson Nano/Xavier NX or Raspberry Pi 4 + Coral TPU
-- Camera: CSI/USB Camera (IMX219/IMX477 or Logitech C920)
-- GPS + Compass: u-blox M8N or M9N
-- Frame: 250–450mm quadcopter frame with appropriate ESCs and motors
-- Power: 4S/6S LiPo, BEC for companion power
-### Hardware Setup Notes
-1. Mount camera with vibration damping; align optical axis with body frame
-2. Ensure serial/MAVLink wiring between FCU and companion (UART/USB)
-3. Isolate companion power from noisy ESC lines; use filtered BEC
-4. Calibrate compass and IMU before flight; verify GPS lock
-5. Configure video device (e.g., /dev/video0) and camera parameters
----
-## 🧱 Software Architecture
-```
-┌───────────────────────────────────────────────┐
-│                Mission Controller             │
-├───────────────────────────────────────────────┤
-```
+**⭐ Star this repository if you find it helpful! ⭐**
+
+</div>
